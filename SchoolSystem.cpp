@@ -15,6 +15,7 @@ struct stSchoolInfo
   string SchoolName;
   string SchoolLevel;
   int CountOfStudent;
+  vector<stStudent> students;
 };
 
 //==================================================================
@@ -100,9 +101,9 @@ void PrintStudentInfo(vector <stStudent> &vStudents)
 
 
 //--------------------
-void StudentSystem()
+vector <stStudent> StudentSystem()
 {
-  vector <stStudent> vStudents;
+  vector<stStudent> vStudents;
   bool RunApp = true;
 
   while (RunApp)
@@ -138,9 +139,8 @@ void StudentSystem()
       break;
     }
   }
-  
 
-
+  return vStudents;
 }
 
 //====================================================================================
@@ -179,6 +179,16 @@ vector<stSchoolInfo> AddSchool(){
   return vctSchoolInfo;
 }
 
+void PrintSchoolInfo(stSchoolInfo info){
+  cout << "\n===========================\n";
+  cout << "School ID    : " << info.SchoolID << endl;
+  cout << "School Name  : " << info.SchoolName << endl;
+  cout << "School Level :" << info.SchoolLevel << endl;
+  cout << "Count If Student :" << info.CountOfStudent << endl;
+  cout << "===========================\n";
+}
+
+
 void SearchSchoolInfo(vector<stSchoolInfo> &vctSchoolInfo){
 
   int FindID;
@@ -200,14 +210,6 @@ void SearchSchoolInfo(vector<stSchoolInfo> &vctSchoolInfo){
   }
 }
 
-void PrintSchoolInfo(stSchoolInfo info){
-  cout << "\n===========================\n";
-  cout << "School ID    : " << info.SchoolID << endl;
-  cout << "School Name  : " << info.SchoolName << endl;
-  cout << "School Level :" << info.SchoolLevel << endl;
-  cout << "Count If Student :" << info.CountOfStudent << endl;
-  cout << "===========================\n";
-}
 
 void PrintAllSchoolsInfo(vector<stSchoolInfo> &vctSchoolInfo){
   int i = 1;
@@ -223,8 +225,30 @@ void PrintAllSchoolsInfo(vector<stSchoolInfo> &vctSchoolInfo){
   }
 }
 
+void AddStudentToShcool(vector<stSchoolInfo> &vctSchoolInfo){
+  vector<stStudent> vStudents = StudentSystem();
+  int FindID;
+  cout << "===========================\n";
+  cout << "Enter School ID: ";
+  cin >> FindID;
 
-void SchoolSystem(){
+  for (stSchoolInfo& info : vctSchoolInfo)
+  {
+    if (info.SchoolID == FindID)
+    {
+      info.students = vStudents;
+    }
+    else
+    {
+      cout << "NOT Found" << endl;
+    }
+    
+  }
+  
+}
+
+void SchoolSystem()
+{
   vector<stSchoolInfo> vctSchoolInfo;
 
   bool RunApp = true;
@@ -258,7 +282,7 @@ void SchoolSystem(){
       break;
     
     case 4:
-      StudentSystem();
+      AddStudentToShcool(vctSchoolInfo);
 
     default:
       cout << "\nOUT" << endl;
@@ -266,7 +290,6 @@ void SchoolSystem(){
       break;
     }
   }
-  
 }
 
 int main()
